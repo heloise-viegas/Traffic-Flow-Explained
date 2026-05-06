@@ -75,3 +75,84 @@
   - Microservices running inside EKS or EC2
 
 - The backend application processes the request and sends the response back to the user through the same path in reverse order.
+
+
+# Azure Traffic Flow Architecture
+
+- User enters a request in the browser:
+
+  ```text
+  www.example.com
+  ```
+
+- The request first reaches the DNS layer, such as Azure DNS.
+
+- Azure DNS resolves the domain name into the IP address of the application entry point and directs the traffic into Azure infrastructure.
+
+- The request then passes through Azure WAF (Web Application Firewall).
+
+- Azure WAF inspects incoming traffic for malicious requests such as:
+  - SQL Injection attacks
+  - XSS attacks
+  - Bot traffic
+  - IP abuse
+  - Rate-limit violations
+
+- Any malicious or suspicious requests are blocked immediately before reaching the application infrastructure.
+
+- After passing security checks, the request reaches the CDN and edge routing layer, typically Azure Front Door or Azure CDN.
+
+- Azure Front Door serves static content such as:
+  - Images
+  - CSS files
+  - JavaScript files
+  - Cached frontend assets
+
+- These static assets are delivered from edge locations closest to the user, which:
+  - Reduces latency
+  - Improves performance
+  - Reduces backend load
+
+- If the request contains dynamic or non-cacheable content, Azure Front Door forwards that request toward the backend infrastructure inside the Azure Virtual Network (VNet).
+
+- The request enters the Azure VNet through the public networking layer and internet-facing endpoints.
+
+- This networking layer acts as the bridge between:
+  - The public internet
+  - Resources hosted inside the Azure VNet
+
+- Inside the VNet, the traffic is routed toward the Azure Application Gateway or Azure Load Balancer.
+
+- Typically, Azure DNS resolves the domain to the public endpoint of the Application Gateway.
+
+- The Application Gateway is responsible for:
+  - Distributing traffic
+  - Performing health checks
+  - SSL termination
+  - URL/path-based routing
+  - Sending requests only to healthy backend targets
+
+- The backend targets may include:
+  - Kubernetes pods running inside Azure Kubernetes Service (AKS)
+  - Virtual Machines (VMs)
+  - Application nodes hosted in private subnets
+
+- The Application Gateway forwards traffic to targets registered in its backend pool.
+
+- In many enterprise architectures, Azure API Management (APIM) may exist before or after the Application Gateway depending on the design.
+
+- Azure API Management provides capabilities such as:
+  - Authentication
+  - Authorization
+  - Rate limiting
+  - API throttling
+  - Request transformation
+  - JWT validation
+  - API versioning
+
+- After passing through all these layers, the request finally reaches:
+  - Kubernetes pods
+  - Backend application servers
+  - Microservices running inside AKS or Virtual Machines
+
+- The backend application processes the request and sends the response back to the user through the same path in reverse order.
