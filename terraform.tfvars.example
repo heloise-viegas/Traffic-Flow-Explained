@@ -5,22 +5,22 @@
 # terraform.tfvars is in .gitignore — never commit real values.
 # ─────────────────────────────────────────────────────────
 
-aws_region   = "us-east-2"
-project_name = "seqas"
-domain_name  = "seqas.online"
+aws_region   = "us-west-2"
+project_name = "abc"
+domain_name  = "abc.online"
 
 # Networking (defaults are fine — change only if they clash
 # with existing VPCs in your account)
-vpc_cidr = "10.0.0.0/16"
+vpc_cidr = "x.x.x.x/xx"
 
 # key = Availability Zone, value = CIDR block
 public_subnet_cidrs = {
-  "us-east-2a" = "10.0.1.0/24"
-  "us-east-2b" = "10.0.2.0/24"
+  "us-west-2a" = "x.x.x.x/xx"
+  "us-west-2b" = "x.x.x.x/xx"
 }
 
 private_subnet_cidrs = {
-  "us-east-2a" = "10.0.10.0/24"
+  "us-west-2a" = "x.x.x.x/xx"
 }
 
 # EC2
