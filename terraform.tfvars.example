@@ -1,0 +1,28 @@
+# ─────────────────────────────────────────────────────────
+# terraform.tfvars.example
+#
+# Copy this file to terraform.tfvars and fill in your values.
+# terraform.tfvars is in .gitignore — never commit real values.
+# ─────────────────────────────────────────────────────────
+
+aws_region   = "us-east-2"
+project_name = "seqas"
+domain_name  = "seqas.online"
+
+# Networking (defaults are fine — change only if they clash
+# with existing VPCs in your account)
+vpc_cidr = "10.0.0.0/16"
+
+# key = Availability Zone, value = CIDR block
+public_subnet_cidrs = {
+  "us-east-2a" = "10.0.1.0/24"
+  "us-east-2b" = "10.0.2.0/24"
+}
+
+private_subnet_cidrs = {
+  "us-east-2a" = "10.0.10.0/24"
+}
+
+# EC2
+ec2_instance_type = "t3.micro"
+key_pair_name     = "your-key-pair-name-here"   # ← CHANGE THIS
